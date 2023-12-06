@@ -2,7 +2,12 @@ import { Injectable } from '@nestjs/common';
 
 @Injectable()
 export class AppService {
-  getHello(params:any): string {
-    return 'Hello World!'+params.id;
+  getHello(
+    status:any,
+    code:any,
+    scope:any,
+    authuser:any,
+    prompt:any): string {
+    return 'status: '+status+", code: "+code+", scope: "+scope+", authuser: "+authuser +", prompt:"+prompt;
   }
 }

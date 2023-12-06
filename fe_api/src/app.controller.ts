@@ -1,13 +1,17 @@
-import { Controller, Get, Param } from '@nestjs/common';
+import { Controller, Get, Param, Query } from '@nestjs/common';
 import { AppService } from './app.service';
 
-@Controller()
+@Controller('oauth2')
 export class AppController {
   constructor(private readonly appService: AppService) {}
 
-  @Get(':id')
-  getHello(@Param() params: any): string {
-    console.log(params);
-    return this.appService.getHello(params);
+  @Get('callback')
+  getHello(
+    @Query('state') state: string,
+    @Query('code') code: string,
+    @Query('scope') scope: string,
+    @Query('authuser') authuser: string,
+    @Query('prompt') prompt: string): string {
+    return this.appService.getHello(state,code,scope,authuser,prompt);
   }
 }

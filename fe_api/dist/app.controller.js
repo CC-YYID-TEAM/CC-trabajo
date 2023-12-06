@@ -19,21 +19,24 @@ let AppController = class AppController {
     constructor(appService) {
         this.appService = appService;
     }
-    getHello(params) {
-        console.log(params);
-        return this.appService.getHello(params);
+    getHello(state, code, scope, authuser, prompt) {
+        return this.appService.getHello(state, code, scope, authuser, prompt);
     }
 };
 exports.AppController = AppController;
 __decorate([
-    (0, common_1.Get)(':id'),
-    __param(0, (0, common_1.Param)()),
+    (0, common_1.Get)('callback'),
+    __param(0, (0, common_1.Query)('state')),
+    __param(1, (0, common_1.Query)('code')),
+    __param(2, (0, common_1.Query)('scope')),
+    __param(3, (0, common_1.Query)('authuser')),
+    __param(4, (0, common_1.Query)('prompt')),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [Object]),
+    __metadata("design:paramtypes", [String, String, String, String, String]),
     __metadata("design:returntype", String)
 ], AppController.prototype, "getHello", null);
 exports.AppController = AppController = __decorate([
-    (0, common_1.Controller)(),
+    (0, common_1.Controller)('oauth2'),
     __metadata("design:paramtypes", [app_service_1.AppService])
 ], AppController);
 //# sourceMappingURL=app.controller.js.map
