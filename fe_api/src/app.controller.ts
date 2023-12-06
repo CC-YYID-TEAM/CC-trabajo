@@ -6,7 +6,7 @@ export class AppController {
   constructor(private readonly appService: AppService) {}
 
   @Get('callback')
-  getHello(
+  callback(
     @Query('state') state: string,
     @Query('code') code: string,
     @Query('scope') scope: string,
