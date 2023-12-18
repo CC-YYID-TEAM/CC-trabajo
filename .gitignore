@@ -1,7 +1,13 @@
 # compiled output
 /fe_api/dist/
-fe_api/node_modules/
-worker/node_modules/
+
+# Ignorar todos los node_modules
+**/node_modules/
+
+# Excepto en proyectos específicos
+!fe_api/node_modules/
+!worker/node_modules/
+
 
 # Logs
 logs
