@@ -10,17 +10,15 @@ import * as zmq from "zeromq"
     constructor(url:string,type:string,){
         this.socket=zmq.socket(type)
         this.conect(url)
-        this.listener()
+        this.sendMessage()
     }
     private conect(url:string) {
-        console.log("Worker connected to port 5555");
-        this.socket.connect(url);
+        console.log("Worker connected to port 3000");
+        this.socket.bindSync(url);
     }
 
-    private listener(){
-        this.socket.on("message", function(msg) {
-          console.log("work: %s", msg.toString());
-        });
+    public sendMessage(){
+        this.socket.send("some work");
     }
 
  }
