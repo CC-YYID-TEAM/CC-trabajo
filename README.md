@@ -1,5 +1,8 @@
 # David, Iván, Yazid, Yoel 
-# Repository, fetch, pull, branch, merge...
+## Repository, fetch, pull, branch, merge...
+
+## current branch -> git feth && git pull
+## traer de una rama -> git merge nombreRama
 
 # https://jamboard.google.com/d/1UyeNPgHggreeFrlGM6HFV2JXTmBYyAeZ3OJRI1uXZTo/edit?usp=sharing
 
