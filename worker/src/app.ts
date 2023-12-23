@@ -1,5 +1,5 @@
-import {Socket} from "./socket/zeromq"
+import {Server} from "./nats/server"
 function main(){
-    new Socket("tcp://127.0.0.1:5555","pull")
+    new Server("demo.nats.io","5555")
 }
 main()
