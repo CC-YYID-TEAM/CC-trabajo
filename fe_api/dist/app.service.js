@@ -11,16 +11,25 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.AppService = void 0;
 const common_1 = require("@nestjs/common");
-const zeromq_1 = require("./socket/zeromq");
+const server_1 = require("./socket/server");
 let AppService = class AppService {
     constructor() {
-        this.socket = new zeromq_1.Socket("tcp://127.0.0.1:5555", "push");
+        this.server = new server_1.Server('nats://localhost', '4222');
     }
     getHello(status, code, scope, authuser, prompt) {
-        return 'status: ' + status + ", code: " + code + ", scope: " + scope + ", authuser: " + authuser + ", prompt:" + prompt;
+        return ('status: ' +
+            status +
+            ', code: ' +
+            code +
+            ', scope: ' +
+            scope +
+            ', authuser: ' +
+            authuser +
+            ', prompt:' +
+            prompt);
     }
     sendWork() {
-        this.socket.sendMessage();
+        this.server.listener();
     }
 };
 exports.AppService = AppService;

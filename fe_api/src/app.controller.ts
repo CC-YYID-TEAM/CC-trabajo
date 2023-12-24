@@ -12,12 +12,13 @@ export class AppController {
     @Query('code') code: string,
     @Query('scope') scope: string,
     @Query('authuser') authuser: string,
-    @Query('prompt') prompt: string): string {
-    return this.appService.getHello(state,code,scope,authuser,prompt);
+    @Query('prompt') prompt: string,
+  ): string {
+    return this.appService.getHello(state, code, scope, authuser, prompt);
   }
   @Post('sendWork')
-  async sendWork(@Body() sendWork:sendWorkDto ) {
-    console.log(sendWork.age)
+  async sendWork(@Body() sendWork: sendWorkDto) {
+    console.log(sendWork.age);
     this.appService.sendWork();
   }
 }

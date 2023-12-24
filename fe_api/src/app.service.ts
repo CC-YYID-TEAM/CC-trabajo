@@ -1,21 +1,33 @@
 import { Injectable } from '@nestjs/common';
-import { Socket } from './socket/zeromq';
+import { Server } from './socket/server';
 
 @Injectable()
 export class AppService {
-  private socket:Socket
-  constructor(){
-    this.socket = new Socket("tcp://127.0.0.1:5555","push")
+  private server: Server;
+  constructor() {
+    this.server = new Server('nats://localhost', '4222');
   }
   getHello(
-    status:any,
-    code:any,
-    scope:any,
-    authuser:any,
-    prompt:any): string {
-    return 'status: '+status+", code: "+code+", scope: "+scope+", authuser: "+authuser +", prompt:"+prompt;
+    status: any,
+    code: any,
+    scope: any,
+    authuser: any,
+    prompt: any,
+  ): string {
+    return (
+      'status: ' +
+      status +
+      ', code: ' +
+      code +
+      ', scope: ' +
+      scope +
+      ', authuser: ' +
+      authuser +
+      ', prompt:' +
+      prompt
+    );
   }
-  sendWork(){
-    this.socket.sendMessage();
+  sendWork() {
+    this.server.listener();
   }
 }

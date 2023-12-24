@@ -1,5 +1,5 @@
 import {Server} from "./nats/server"
 function main(){
-    new Server("demo.nats.io","5555")
+    new Server("nats://localhost","4222")
 }
 main()

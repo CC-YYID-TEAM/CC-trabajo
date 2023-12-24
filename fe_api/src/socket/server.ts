@@ -1,4 +1,4 @@
-import { connect, StringCodec, NatsConnection, Codec, ErrorCode } from 'nats';
+import { connect, StringCodec, NatsConnection, Codec } from 'nats';
 export class Server {
   private nc: NatsConnection;
   private url: string;
@@ -19,21 +19,9 @@ export class Server {
   private async conect() {
     console.log('Worker connected to port:' + this.port);
     this.nc = await connect({ servers: this.url });
-    this.listener();
   }
 
-  private listener() {
-    const sub = this.nc.subscribe('hello');
-    (async () => {
-        for await (const m of sub) { 
-            console.log("llego")
-         }
-      })().catch((err) => {
-        if (err.code === ErrorCode.Timeout) {
-          console.log(`sub timed out!`);
-        } else {
-          console.log(`sub iterator got an error!`);
-        }
-      });
+  public listener() {
+    this.nc.publish('hello', this.sc.encode('world'));
   }
 }
