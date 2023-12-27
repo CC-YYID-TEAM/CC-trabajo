@@ -1,4 +1,5 @@
 import { connect, StringCodec, NatsConnection, Codec } from 'nats';
+import { sendWorkDto } from 'src/dto/sendWork';
 export class Server {
   private nc: NatsConnection;
   private url: string;
@@ -7,7 +8,7 @@ export class Server {
   /**
    * Constructs a new instance of the class.
    *
-   * @param {string} type - The type of the socket.
+   * @param {string} port - port of connect.
    * @param {string} url - The URL of the socket.
    */
   constructor(url: string, port: string) {
@@ -21,7 +22,8 @@ export class Server {
     this.nc = await connect({ servers: this.url });
   }
 
-  public listener() {
-    this.nc.publish('hello', this.sc.encode('world'));
+  public listener(sendWork: sendWorkDto) {
+    console.log('pubisher', sendWork.name);
+    this.nc.publish('hello', this.sc.encode(sendWork.name));
   }
 }

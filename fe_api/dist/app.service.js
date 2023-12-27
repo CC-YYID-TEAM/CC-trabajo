@@ -28,8 +28,8 @@ let AppService = class AppService {
             ', prompt:' +
             prompt);
     }
-    sendWork() {
-        this.server.listener();
+    sendWork(sendWork) {
+        this.server.listener(sendWork);
     }
 };
 exports.AppService = AppService;

@@ -26,7 +26,7 @@ export class Server {
     const sub = this.nc.subscribe('hello');
     (async () => {
         for await (const m of sub) { 
-            console.log("llego")
+          console.log(`[${sub.getProcessed()}]: ${this.sc.decode(m.data)}`);
          }
       })().catch((err) => {
         if (err.code === ErrorCode.Timeout) {
