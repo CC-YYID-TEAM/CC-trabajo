@@ -1,4 +1,6 @@
 import { connect, StringCodec, NatsConnection, Codec } from 'nats';
+import { stringify } from 'querystring';
+import { sendWorkDto } from 'src/dto/sendWork';
 export class Server {
   private nc: NatsConnection;
   private url: string;
@@ -21,7 +23,7 @@ export class Server {
     this.nc = await connect({ servers: this.url });
   }
 
-  public listener() {
-    this.nc.publish('hello', this.sc.encode('world'));
+  public listener(sendowrk:sendWorkDto) {
+    this.nc.publish('hello', this.sc.encode(JSON.stringify(sendowrk)));
   }
 }

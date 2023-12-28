@@ -24,8 +24,8 @@ let AppController = class AppController {
         return this.appService.getHello(state, code, scope, authuser, prompt);
     }
     async sendWork(sendWork) {
-        console.log(sendWork.age);
-        this.appService.sendWork();
+        console.log(sendWork);
+        this.appService.sendWork(sendWork);
     }
 };
 exports.AppController = AppController;

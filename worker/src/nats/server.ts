@@ -23,17 +23,35 @@ export class Server {
   }
 
   private listener() {
+    console.log("hola");
     const sub = this.nc.subscribe('hello');
     (async () => {
         for await (const m of sub) { 
-            console.log("llego")
+        // Handle the received sendWorkDTO
+          this.ejecutarFuncion(JSON.parse(this.sc.decode(m.data)));
          }
       })().catch((err) => {
         if (err.code === ErrorCode.Timeout) {
           console.log(`sub timed out!`);
         } else {
-          console.log(`sub iterator got an error!`);
+          console.log(err);
         }
       });
   }
+
+  private ejecutarFuncion( Trabajo:any) {
+
+    const userFunction = new Function(Trabajo.expression)
+
+    try {
+      console.log(Trabajo.expression)
+      const result = userFunction();
+      console.log(`The user ${Trabajo.name}" has executed this function ${Trabajo.expression} and the  result is: ${result}`);
+  } catch (error) {
+    console.log("fuck")
+      console.error("Error executing user function:", error);
+  }
+
+  }
 }
+

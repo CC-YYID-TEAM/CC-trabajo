@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { Server } from './socket/server';
-
+import { sendWorkDto } from './dto/sendWork';
 @Injectable()
 export class AppService {
   private server: Server;
@@ -27,7 +27,7 @@ export class AppService {
       prompt
     );
   }
-  sendWork() {
-    this.server.listener();
+  sendWork(sendWork :sendWorkDto) {
+    this.server.listener(sendWork);
   }
 }

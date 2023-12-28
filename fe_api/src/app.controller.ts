@@ -18,7 +18,7 @@ export class AppController {
   }
   @Post('sendWork')
   async sendWork(@Body() sendWork: sendWorkDto) {
-    console.log(sendWork.age);
-    this.appService.sendWork();
+    console.log(sendWork);
+    this.appService.sendWork(sendWork);
   }
 }
