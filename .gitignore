@@ -1,5 +1,5 @@
 # compiled output
-/fe_api/dist/
+fe_api/dist/*
 
 # Ignorar todos los node_modules
 **/node_modules/
