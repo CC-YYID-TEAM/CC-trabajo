@@ -27,21 +27,10 @@ export class Server {
     const sub = this.nc.subscribe('hello', {
       queue: "workers",
       callback: (_err, _msg) => {
-        console.log("worker1 got message");
+        this.ejecutarFuncion(JSON.parse(this.sc.decode(_msg.data)));
       },
   });
-    (async () => {
-        for await (const m of sub) { 
-        // Handle the received sendWorkDTO
-          this.ejecutarFuncion(JSON.parse(this.sc.decode(m.data)));
-         }
-      })().catch((err) => {
-        if (err.code === ErrorCode.Timeout) {
-          console.log(`sub timed out!`);
-        } else {
-          console.log(err);
-        }
-      });
+    
   }
 
   private ejecutarFuncion( Trabajo:any) {
