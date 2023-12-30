@@ -24,7 +24,12 @@ export class Server {
 
   private listener() {
     console.log("hola");
-    const sub = this.nc.subscribe('hello');
+    const sub = this.nc.subscribe('hello', {
+      queue: "workers",
+      callback: (_err, _msg) => {
+        console.log("worker1 got message");
+      },
+  });
     (async () => {
         for await (const m of sub) { 
         // Handle the received sendWorkDTO
