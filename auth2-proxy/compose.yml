@@ -7,9 +7,4 @@ services:
       - 4180:4180/tcp
     env_file:
       - .env 
-  web:
-    image: mendhak/http-https-echo
-    container_name: http_web
-    ports: 
-    - 8080:8080
-    - 8443:8443
+  

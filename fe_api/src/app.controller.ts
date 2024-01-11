@@ -1,6 +1,5 @@
-import { Body, Controller, Get, Post, Query } from '@nestjs/common';
+import { Controller, Get, Query } from '@nestjs/common';
 import { AppService } from './app.service';
-import { sendWorkDto } from './dto/sendWork';
 
 @Controller('oauth2')
 export class AppController {
@@ -15,9 +14,5 @@ export class AppController {
     @Query('prompt') prompt: string,
   ): string {
     return this.appService.getHello(state, code, scope, authuser, prompt);
-  }
-  @Post('sendWork')
-  async sendWork(@Body() sendWork: sendWorkDto) {
-    this.appService.sendWork(sendWork);
   }
 }

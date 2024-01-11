@@ -1,5 +1,5 @@
 import { connect, StringCodec, NatsConnection, Codec } from 'nats';
-import { sendWorkDto } from 'src/dto/sendWork';
+import { sendWorkDto } from 'src/job/dto/sendWork';
 export class Server {
   private nc: NatsConnection;
   private url: string;
