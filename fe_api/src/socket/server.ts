@@ -9,7 +9,7 @@ export class Server {
   /**
    * Constructs a new instance of the class.
    *
-   * @param {string} type - The type of the socket.
+   * @param {string} port - port of connect.
    * @param {string} url - The URL of the socket.
    */
   constructor(url: string, port: string) {

@@ -1,5 +1,5 @@
 # compiled output
-/fe_api/dist/
+fe_api/dist/*
 
 # Ignorar todos los node_modules
 **/node_modules/
@@ -40,3 +40,4 @@ lerna-debug.log*
 !.vscode/tasks.json
 !.vscode/launch.json
 !.vscode/extensions.json
+fe_api/dist/tsconfig.build.tsbuildinfo

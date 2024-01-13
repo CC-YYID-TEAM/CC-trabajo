@@ -15,17 +15,12 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.AppController = void 0;
 const common_1 = require("@nestjs/common");
 const app_service_1 = require("./app.service");
-const sendWork_1 = require("./dto/sendWork");
 let AppController = class AppController {
     constructor(appService) {
         this.appService = appService;
     }
     callback(state, code, scope, authuser, prompt) {
         return this.appService.getHello(state, code, scope, authuser, prompt);
-    }
-    async sendWork(sendWork) {
-        console.log(sendWork);
-        this.appService.sendWork(sendWork);
     }
 };
 exports.AppController = AppController;
@@ -40,13 +35,6 @@ __decorate([
     __metadata("design:paramtypes", [String, String, String, String, String]),
     __metadata("design:returntype", String)
 ], AppController.prototype, "callback", null);
-__decorate([
-    (0, common_1.Post)('sendWork'),
-    __param(0, (0, common_1.Body)()),
-    __metadata("design:type", Function),
-    __metadata("design:paramtypes", [sendWork_1.sendWorkDto]),
-    __metadata("design:returntype", Promise)
-], AppController.prototype, "sendWork", null);
 exports.AppController = AppController = __decorate([
     (0, common_1.Controller)('oauth2'),
     __metadata("design:paramtypes", [app_service_1.AppService])

@@ -4,9 +4,6 @@ import { sendWorkDto } from './dto/sendWork';
 @Injectable()
 export class AppService {
   private server: Server;
-  constructor() {
-    this.server = new Server('nats://localhost', '4222');
-  }
   getHello(
     status: any,
     code: any,
@@ -26,8 +23,5 @@ export class AppService {
       ', prompt:' +
       prompt
     );
-  }
-  sendWork(sendWork :sendWorkDto) {
-    this.server.listener(sendWork);
   }
 }
