@@ -20,8 +20,17 @@ export class Server {
     console.log('Worker connected to port:' + this.port);
     this.nc = await connect({ servers: this.url });
     this.listener();
-  }
+    this.jetstream();
 
+  }
+   public async jetstream() {
+    const js = this.nc.jetstream();
+    const kv = await js.views.kv("profiles");
+    await kv.put("sue.color", "red");
+  let entry = await kv.get("sue.color");
+  console.log(`${entry?.key} @ ${entry?.revision} -> ${entry?.string()}`);
+    return kv;
+   }
   private listener() {
     console.log("hola");
     const sub = this.nc.subscribe('hello', {
