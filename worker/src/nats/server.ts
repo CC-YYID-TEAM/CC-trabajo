@@ -38,9 +38,10 @@ export class Server {
     const userFunction = new Function(Trabajo.expression)
 
     try {
-      console.log(Trabajo.expression)
+     // console.log(Trabajo.expression)
       const result = userFunction();
-      console.log(`The user ${Trabajo.name}" has executed this function ${Trabajo.expression} and the  result is: ${result}`);
+      console.log("work received");
+      //console.log(`The user ${Trabajo.name}" has executed this function ${Trabajo.expression} and the  result is: ${result}`);
   } catch (error) {
     console.log("fuck")
       console.error("Error executing user function:", error);
