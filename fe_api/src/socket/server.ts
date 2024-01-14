@@ -6,6 +6,7 @@ export class Server {
   private url: string;
   private port: string;
   private sc: Codec<string>;
+//  private jetstream:JetstreamHandler;
   /**
    * Constructs a new instance of the class.
    *
@@ -21,9 +22,10 @@ export class Server {
   private async conect() {
     console.log('Worker connected to port:' + this.port);
     this.nc = await connect({ servers: this.url });
+
   }
 
-  public listener(sendowrk:sendWorkDto) {
+  public async listener(sendowrk:sendWorkDto) {
     this.nc.publish('hello', this.sc.encode(JSON.stringify(sendowrk)));
   }
 }
