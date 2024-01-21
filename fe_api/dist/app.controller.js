@@ -12,6 +12,6 @@ let AppController = class AppController {
 };
 exports.AppController = AppController;
 exports.AppController = AppController = __decorate([
-    (0, common_1.Controller)('oauth2')
+    (0, common_1.Controller)()
 ], AppController);
 //# sourceMappingURL=app.controller.js.map

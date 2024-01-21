@@ -18,8 +18,12 @@ export class Server {
     this.conect();
   }
   private async conect() {
-    console.log('Worker connected to port:' + this.port);
-    this.nc = await connect({ servers: this.url });
+    try {
+      this.nc = await connect({ servers: this.url });
+      console.log('Worker connected to port:' + this.port);
+    } catch (error) {
+      console.log('Error al conectarse a nats', error);
+    }
   }
 
   public listener(sendowrk: sendWorkDto) {
