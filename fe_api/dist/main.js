@@ -5,10 +5,23 @@ const swagger_1 = require("@nestjs/swagger");
 const app_module_1 = require("./app.module");
 async function bootstrap() {
     const app = await core_1.NestFactory.create(app_module_1.AppModule);
+    console.log(process.env.port);
     const config = new swagger_1.DocumentBuilder()
         .setTitle('FAAS')
         .setDescription('The faas API description')
         .setVersion('1.0')
+        .addOAuth2({
+        type: 'oauth2',
+        flows: {
+            implicit: {
+                authorizationUrl: 'http://localhost:3000/auth/callback',
+                scopes: {
+                    'read:users': 'Read users',
+                    'write:users': 'Modify users',
+                },
+            },
+        },
+    })
         .addTag('faas')
         .build();
     const document = swagger_1.SwaggerModule.createDocument(app, config);

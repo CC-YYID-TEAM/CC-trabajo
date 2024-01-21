@@ -1,0 +1,39 @@
+version: '3'
+services:
+  nats:
+    container_name: nats
+    image: nats:2.7.0-alpine
+    ports:
+      - 4222:4222
+    networks:
+      - faas  
+
+  fe:
+    build:
+      context: ./fe_api
+      dockerfile: Dockerfile
+    image: fe
+    ports:
+      - "3000:3000"
+    networks:
+      - faas
+    depends_on:
+      - nats  
+
+  oauth2:
+    image: bitnami/oauth2-proxy
+    container_name: auth2_proxy
+    ports:
+      - 4180:4180/tcp
+    command:
+      - --http-address
+      - 0.0.0.0:4180  
+    env_file:
+      - .env 
+    networks:
+      - faas
+
+
+networks:
+  faas:
+    driver: bridge
