@@ -1,5 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-export class responseDto {
+export class StatusJobDto {
   @ApiProperty({ type: Number, description: 'id' })
   id: string;
   constructor(id) {
