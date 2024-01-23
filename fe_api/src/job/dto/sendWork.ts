@@ -1,6 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger';
 export class sendWorkDto {
-  idTrabajo: string;
+  id: string;
   @ApiProperty({ type: String })
   name: string;
   @ApiProperty({ type: String })

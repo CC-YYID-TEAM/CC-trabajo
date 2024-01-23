@@ -17,7 +17,7 @@ export class JobService {
   async sendWork(sendWork: sendWorkDto): Promise<responseDto> {
     const newIdTrabajo: string = uuid();
 
-    sendWork.idTrabajo = newIdTrabajo;
+    sendWork.id = newIdTrabajo;
     this.server.listener(sendWork);
     return new responseDto(newIdTrabajo);
   }
