@@ -1,5 +1,6 @@
 import { connect, NatsConnection, Codec, StringCodec } from 'nats';
 import { JetstreamHandler } from './jetStreamHandler';
+import { jobStatus } from "./jobStatus"
 
 
 
@@ -15,6 +16,8 @@ export class Server {
     this.port = port;
     this.sc = StringCodec();
     this.conect();
+    new jobStatus("nats://localhost","4222")
+
    
   }
 
@@ -32,13 +35,21 @@ export class Server {
     console.log(`status -> ${result}`);
   }
 
+  public async storeTrabajo(id:string,result:string) {
+
+    await this.jetstreamHandler.storeValue(id, result);
+    console.log("HAS BEEN STORED SUCCESSFULY");
+
+  }
+
   private async listener() {
     console.log("hola");
     const sub = this.nc.subscribe('hello', {
       queue: "workers",
       callback: async (_err, _msg) => {
-        await this.jetstream("1","RECEIVED BY WORKER");
-        this.ejecutarFuncion(JSON.parse(this.sc.decode(_msg.data)));
+        const trabajo = JSON.parse(this.sc.decode(_msg.data));
+        await this.jetstream(trabajo.id,"RECEIVED BY WORKER");
+        this.ejecutarFuncion(trabajo);
         
       },
     });
@@ -48,11 +59,10 @@ export class Server {
     const userFunction = new Function(Trabajo.expression);
 
     try {
-      await this.jetstream("1","EXEUCTING");
-      for (let i = 0;i< 1000;i++) console.log(i);
-       const result = userFunction();
-      console.log("work received");
-     await this.jetstream("1","TERMINATED");
+      await this.jetstream(Trabajo.id,"EXEUCTING");
+       const result = await userFunction();
+      this.storeTrabajo(Trabajo.id,result);
+     await this.jetstream(Trabajo.id,"TERMINATED");
     } catch (error) {
       console.error("Error executing user function:", error);
     }
