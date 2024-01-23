@@ -1,10 +1,13 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.hello = void 0;
 const world = 'world';
-
-export function hello(who: string = world): string {
-  console.log("hh")
-  return `Hello ${who}! `;
+function hello(who = world) {
+    console.log("hh");
+    return `Hello ${who}! `;
 }
-hello("finally")
+exports.hello = hello;
+hello("finally");
 /*import http from 'http';
 import axios from 'axios';
 import url from 'url';
@@ -59,4 +62,5 @@ async function main(): Promise<void> {
   }).listen(8080);
 }
 
-main() */
+main() */ 
+//# sourceMappingURL=index.js.map
