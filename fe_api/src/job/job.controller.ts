@@ -14,7 +14,7 @@ export class JobController {
   }
   @Get(':id')
   async getJobById(@Param('id') id: string) {
-    console.log("already returned ")
+    console.log('already returned ');
     return this.appService.getJobById(id);
   }
 }

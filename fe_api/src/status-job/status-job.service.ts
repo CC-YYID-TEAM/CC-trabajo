@@ -14,15 +14,16 @@ export class StatusJobService {
   }
 
   async statusJobById(id: string): Promise<StatusJobDto> {
-
     const { data } = await firstValueFrom(
-      this.httpService.get<StatusJobDto>(`http://localhost:1983/getworkstatus/${id}`).pipe(
-        catchError((error: AxiosError) => {
-          this.logger.error(error.response.data);
-          throw 'An error happened!';
-        }),
-      ),
+      this.httpService
+        .get<StatusJobDto>(`http://localhost:1983/getworkstatus/${id}`)
+        .pipe(
+          catchError((error: AxiosError) => {
+            this.logger.error(error.response.data);
+            throw 'An error happened!';
+          }),
+        ),
     );
-return data;
+    return data;
   }
 }
