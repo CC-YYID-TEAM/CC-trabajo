@@ -1,14 +1,5 @@
-const world = 'world';
 
-export function hello(who: string = world): string {
-  console.log("hh")
-  return `Hello ${who}! `;
-}
-hello("finally")
-/*import http from 'http';
 import axios from 'axios';
-import url from 'url';
-import crypto from 'crypto';
 
 interface WorkerData {
   start?: Date;
@@ -18,45 +9,25 @@ interface WorkerData {
 const workerData: { [key: string]: WorkerData } = {};
 
 async function main(): Promise<void> {
+  console.log("inicializado")
   setInterval(async () => {
-    const resp = await axios.get('http://localhost:8222/varz');
-    console.log(resp.data.in_msgs);
-    if (resp.data.in_msgs > 10) {
-      console.log('Debería añadir nuevo worker');
+    let resp;
+    try {
+      const resp = await axios.get('http://localhost:8222/varz');
+      console.log("here");
+      console.log(resp.data.in_msgs);
+      if (resp.data.in_msgs > 10) {
+        console.log('Adicionar nuevo worker');
       workerData[crypto.randomUUID()] = { start: undefined, end: new Date() };
-    }
-  }, 20000);
-
-  setInterval(async () => {
-    const currDate = new Date();
-    Object.keys(workerData).forEach((key) => {
-      if (!workerData[key].start && workerData[key].end) {
-        let timeDiff = workerData[key].end.getTime() - currDate.getTime();
-        timeDiff = 1000;
-        if (timeDiff > 120) {
-          console.log(`Deberia borrar servidor ${key}`);
-          delete workerData[key];
-        }
+      }else{
+        console.log("no hay nada")
       }
-    });
-  }, 30000);
-
-  http.createServer(function (req, res) {
-    const q = url.parse(req.url? , true);
-    console.log(q.pathname);
-    console.log(q.query);
-    switch (req.url) {
-      case '/register':
-        workerData[q.query.id] = undefined;
-        break;
-      case '/start':
-        workerData[q.query.id] = { start: new Date(), end: undefined };
-        break;
-      case '/end':
-        workerData[q.query.id] = { start: undefined, end: new Date() };
+    } catch (error) {
+      console.log(error)
     }
-    res.end();
-  }).listen(8080);
+    
+    
+  }, 2000);
 }
 
-main() */
+main()
