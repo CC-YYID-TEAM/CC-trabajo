@@ -1,11 +1,11 @@
 import { connect, StringCodec, NatsConnection, Codec } from 'nats';
-import { stringify } from 'querystring';
 import { sendWorkDto } from 'src/dto/sendWork';
 export class Server {
   private nc: NatsConnection;
   private url: string;
   private port: string;
   private sc: Codec<string>;
+//  private jetstream:JetstreamHandler;
   /**
    * Constructs a new instance of the class.
    *
@@ -19,11 +19,15 @@ export class Server {
     this.conect();
   }
   private async conect() {
-    console.log('Worker connected to port:' + this.port);
-    this.nc = await connect({ servers: this.url });
+    try {
+      this.nc = await connect({ servers: this.url });
+      console.log('Worker connected to port:' + this.port);
+    } catch (error) {
+      console.log('Error al conectarse a nats', error);
+    }
   }
 
-  public listener(sendowrk:sendWorkDto) {
+  public listener(sendowrk: sendWorkDto) {
     this.nc.publish('hello', this.sc.encode(JSON.stringify(sendowrk)));
   }
 }

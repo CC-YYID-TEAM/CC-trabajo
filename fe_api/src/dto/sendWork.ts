@@ -1,4 +1,4 @@
 export class sendWorkDto {
-    name: string;
-    expression: string; 
-  }
+  name: string;
+  expression: string;
+}

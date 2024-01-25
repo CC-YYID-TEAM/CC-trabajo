@@ -1,10 +1,17 @@
 version: "3.0"
 services:
+  hello-world:
+    image: gcr.io/google-samples/hello-app:1.0
+    ports:
+      - "8080"
   oauth2:
     image: bitnami/oauth2-proxy
     container_name: auth2_proxy
     ports:
       - 4180:4180/tcp
+    command:
+      - --http-address
+      - 0.0.0.0:4180  
     env_file:
       - .env 
   

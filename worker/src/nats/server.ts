@@ -1,61 +1,72 @@
-import { connect, StringCodec, NatsConnection, Codec, ErrorCode } from 'nats';
+import { connect, NatsConnection, Codec, StringCodec } from 'nats';
+import { JetstreamHandler } from './jetStreamHandler';
+import { jobStatus } from "./jobStatus"
+
+
+
 export class Server {
   private nc: NatsConnection;
   private url: string;
   private port: string;
   private sc: Codec<string>;
-  /**
-   * Constructs a new instance of the class.
-   *
-   * @param {string} type - The type of the socket.
-   * @param {string} url - The URL of the socket.
-   */
+  private jetstreamHandler: JetstreamHandler;
+
   constructor(url: string, port: string) {
     this.url = url + ':' + port;
     this.port = port;
     this.sc = StringCodec();
     this.conect();
+    new jobStatus("nats://localhost","4222")
+
+   
   }
+
   private async conect() {
     console.log('Worker connected to port:' + this.port);
     this.nc = await connect({ servers: this.url });
     this.listener();
-    this.jetstream();
+    this.jetstreamHandler = new JetstreamHandler(this.nc);
 
   }
-   public async jetstream() {
-    const js = this.nc.jetstream();
-    const kv = await js.views.kv("profiles");
-    await kv.put("sue.color", "red");
-  let entry = await kv.get("sue.color");
-  console.log(`${entry?.key} @ ${entry?.revision} -> ${entry?.string()}`);
-    return kv;
-   }
-  private listener() {
+
+  public async jetstream(id:string,status:string) {
+    await this.jetstreamHandler.put(id, status);
+    const result = await this.jetstreamHandler.get(id);
+    console.log(`status -> ${result}`);
+  }
+
+  public async storeTrabajo(id:string,result:string) {
+
+    await this.jetstreamHandler.storeValue(id, result);
+    console.log("HAS BEEN STORED SUCCESSFULY");
+
+  }
+
+  private async listener() {
     console.log("hola");
     const sub = this.nc.subscribe('hello', {
       queue: "workers",
-      callback: (_err, _msg) => {
-        this.ejecutarFuncion(JSON.parse(this.sc.decode(_msg.data)));
+      callback: async (_err, _msg) => {
+        const trabajo = JSON.parse(this.sc.decode(_msg.data));
+        await this.jetstream(trabajo.id,"RECEIVED BY WORKER");
+        this.ejecutarFuncion(trabajo);
+        
       },
-  });
-    
+    });
   }
 
-  private ejecutarFuncion( Trabajo:any) {
-
-    const userFunction = new Function(Trabajo.expression)
+  private async ejecutarFuncion(Trabajo: any) {
+    const userFunction = new Function(Trabajo.expression);
 
     try {
-     // console.log(Trabajo.expression)
-      const result = userFunction();
-      console.log("work received");
-      //console.log(`The user ${Trabajo.name}" has executed this function ${Trabajo.expression} and the  result is: ${result}`);
-  } catch (error) {
-    console.log("fuck")
+      await this.jetstream(Trabajo.id,"EXEUCTING");
+       const result = await userFunction();
+      this.storeTrabajo(Trabajo.id,result);
+     await this.jetstream(Trabajo.id,"TERMINATED");
+    } catch (error) {
       console.error("Error executing user function:", error);
+    }
   }
 
-  }
+// Usage
 }
-

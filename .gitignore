@@ -41,3 +41,4 @@ lerna-debug.log*
 !.vscode/launch.json
 !.vscode/extensions.json
 fe_api/dist/tsconfig.build.tsbuildinfo
+**/dist/

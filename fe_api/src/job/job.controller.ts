@@ -1,4 +1,4 @@
-import { Body, Controller, Post } from '@nestjs/common';
+import { Body, Controller, Get, Param, Post } from '@nestjs/common';
 import { JobService } from './job.service';
 import { sendWorkDto } from './dto/sendWork';
 import { ApiTags } from '@nestjs/swagger';
@@ -10,7 +10,11 @@ export class JobController {
   constructor(private readonly appService: JobService) {}
   @Post('sendWork')
   async sendWork(@Body() sendWork: sendWorkDto): Promise<responseDto> {
-    this.appService.sendWork(sendWork);
-    return { id: '25' };
+    return this.appService.sendWork(sendWork);
+  }
+  @Get(':id')
+  async getJobById(@Param('id') id: string) {
+    console.log('already returned ');
+    return this.appService.getJobById(id);
   }
 }
