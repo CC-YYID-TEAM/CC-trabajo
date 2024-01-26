@@ -16,7 +16,7 @@ export class JobServiceApi {
         .get<StatusJobDto[]>(`http://localhost:1983/getworkstatus/${_id}`)
         .pipe(
           catchError((error: AxiosError) => {
-            this.logger.error(error);
+            console.log(error);
             throw 'An error happened!';
           }),
         ),
@@ -32,7 +32,7 @@ export class JobServiceApi {
         )
         .pipe(
           catchError((error: AxiosError) => {
-           // this.logger.error(error);
+            console.log(error);
             throw 'An error happened!';
           }),
         ),
@@ -50,7 +50,7 @@ export class JobServiceApi {
         )
         .pipe(
           catchError((error: AxiosError) => {
-           // this.logger.error(error);
+            console.log(error);
             throw 'An error happened!';
           }),
         ),
@@ -66,7 +66,7 @@ export class JobServiceApi {
         )
         .pipe(
           catchError((error: AxiosError) => {
-            this.logger.error(error.response.data);
+            console.log(error);
             throw 'An error happened!';
           }),
         ),

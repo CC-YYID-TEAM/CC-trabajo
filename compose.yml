@@ -51,15 +51,14 @@ services:
     build:
       context: ./observer
       dockerfile: Dockerfile
-    image: worker
+    image: observer
     ports:
       - "3003:3003"
     networks:
-      - faas 
+      - faas
     depends_on:
-      - nats           
-
-
+      - worker
+        
 networks:
   faas:
     driver: bridge

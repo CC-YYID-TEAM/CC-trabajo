@@ -17,6 +17,7 @@ export class Server {
     this.port = port;
     this.sc = StringCodec();
     this.conect();
+    console.log('Worker connected to port hh:' + this.port);
     new jobStatus(url,port)
 
    
@@ -24,7 +25,12 @@ export class Server {
 
   private async conect() {
     console.log('Worker connected to port:' + this.port);
-    this.nc = await connect({ servers: this.url });
+    try {
+      this.nc = await connect({ servers: this.url });
+    } catch (error) {
+      console.log(error);
+    }
+    
     this.listener();
     this.jetstreamHandler = new JetstreamHandler(this.nc);
 
@@ -59,11 +65,12 @@ export class Server {
   }
 
   private async ejecutarFuncion(Trabajo: any) {
-    const userFunction = new Function(Trabajo.expression);
+    
 
     try {
+      const result = await eval(Trabajo.expression);
       await this.jetstream(Trabajo.id,"EXEUCTING");
-       const result = await userFunction();
+       //const result = await userFunction();
       this.storeTrabajo(Trabajo.userid,Trabajo.id,result);
      await this.jetstream(Trabajo.id,"TERMINATED");
     } catch (error) {
@@ -79,7 +86,7 @@ export class Server {
   // Usage:
   async example() {
     console.log('Start');
-    await this.sleep(30000); // Sleep for 10 seconds
+    //await this.sleep(30000); // Sleep for 10 seconds
     console.log('End');
   }
   

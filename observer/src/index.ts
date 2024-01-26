@@ -16,7 +16,7 @@ async function main(): Promise<void> {
   setInterval(async () => {
     try {
       const resp = await axios.get(`http://${process.env.NATS_URL}:${process.env.NATS_PORT}/varz`);
-      console.log("here");
+     // console.log("here");
       console.log(resp.data.in_msgs);
       if (resp.data.in_msgs > parseInt(NUM_PROCESOS_IN_QUEUE_FOR_OTHER_WORkER)) {
         console.log('Adicionar nuevo worker');
