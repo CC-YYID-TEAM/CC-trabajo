@@ -4,10 +4,11 @@ import { JobService } from './job.service';
 import { StatusJobService } from '../status-job/status-job.service';
 import { StatusJobModule } from 'src/status-job/status-job.module';
 import { HttpModule } from '@nestjs/axios';
+import { JwtService } from '@nestjs/jwt';
 
 @Module({
   imports: [StatusJobModule, HttpModule],
   controllers: [JobController],
-  providers: [JobService, StatusJobService],
+  providers: [JobService, StatusJobService, JwtService],
 })
 export class JobModule {}

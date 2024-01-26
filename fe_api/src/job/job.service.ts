@@ -14,10 +14,12 @@ export class JobService {
       `${process.env.NATS_PORT}`,
     );
   }
-  async sendWork(sendWork: sendWorkDto): Promise<responseDto> {
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  async sendWork(sendWork: sendWorkDto, _user: string): Promise<responseDto> {
     const newIdTrabajo: string = uuid();
 
     sendWork.id = newIdTrabajo;
+    sendWork.idTrabajador = _user;
     this.server.listener(sendWork);
     return new responseDto(newIdTrabajo);
   }
@@ -25,7 +27,9 @@ export class JobService {
     try {
       const response = await this.statusService.statusJobById(_id);
       console.log(response);
-    } catch (err) {}
+    } catch (err) {
+      console.log(err);
+    }
     const newIdTrabajo: string = uuid();
     return new responseDto(newIdTrabajo);
   }
