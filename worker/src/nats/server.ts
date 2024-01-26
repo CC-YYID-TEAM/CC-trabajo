@@ -36,9 +36,9 @@ export class Server {
     console.log(`status -> ${result}`);
   }
 
-  public async storeTrabajo(id:string,result:string) {
+  public async storeTrabajo(userid:string,id:string,result:string) {
 
-    await this.jetstreamHandler.storeValue(id, result);
+    await this.jetstreamHandler.storeValue(userid,id, result);
     console.log("HAS BEEN STORED SUCCESSFULY");
 
   }
@@ -62,7 +62,7 @@ export class Server {
     try {
       await this.jetstream(Trabajo.id,"EXEUCTING");
        const result = await userFunction();
-      this.storeTrabajo(Trabajo.id,result);
+      this.storeTrabajo(Trabajo.userid,Trabajo.id,result);
      await this.jetstream(Trabajo.id,"TERMINATED");
     } catch (error) {
       console.error("Error executing user function:", error);

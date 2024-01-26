@@ -37,9 +37,10 @@ export class jobStatus {
       }
     });
 
-    this.app.get('/getworkresult/:workid', async (req, res) => {
+    this.app.get('/getworkresult/:userid/:workid', async (req, res) => {
       const workId = req.params.workid;
-      const { success, result, error } = await this.jetstreamHandler!!.getValue(workId);
+      const userID = req.params.userid;
+      const { success, result, error } = await this.jetstreamHandler!!.getValue(userID,workId);
       
       if (success) {
         res.send(`WorkID: ${workId}, Resultado: ${result}`);

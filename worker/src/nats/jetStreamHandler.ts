@@ -40,9 +40,9 @@ export class JetstreamHandler {
     }
   }
 
-  public async storeValue(key: string, value: string): Promise<{ success: boolean, error?: string }> {
+  public async storeValue(userid:string,key: string, value: string): Promise<{ success: boolean, error?: string }> {
     try {
-      const os = await this.getJetstream().views.os("worksresult");
+      const os = await this.getJetstream().views.os(userid);
       const data = new TextEncoder().encode(value);
       const info = await os.putBlob({ name: key, description: "large data" }, data);
       console.log(`Added entry ${info.name} (${info.size} bytes) - '${info.description}'`);
@@ -53,9 +53,9 @@ export class JetstreamHandler {
     }
   }
 
-  public async getValue(key: string): Promise<{ success: boolean, result?: string, error?: string }> {
+  public async getValue(userid:string,key: string): Promise<{ success: boolean, result?: string, error?: string }> {
     try {
-      const os = await this.getJetstream().views.os("worksresult");
+      const os = await this.getJetstream().views.os(userid);
       const data = await os.getBlob(key);
       return { success: true, result: new TextDecoder().decode(data) };
     } catch (error) {
