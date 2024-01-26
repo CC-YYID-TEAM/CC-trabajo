@@ -37,12 +37,14 @@ export class jobStatus {
       }
     });
 
-    this.app.get('/getworkresult/:workid', async (req, res) => {
+    this.app.get('/getworkresult/:workid/:userid', async (req, res) => {
       const workId = req.params.workid;
-      const { success, result, error } = await this.jetstreamHandler.getValue(workId);
-      
+      const userId = req.params.userid;
+    
+      const { success, result, error } = await this.jetstreamHandler.getValue(userId, workId);
+    
       if (success) {
-        res.send(`WorkID: ${workId}, Resultado: ${result}`);
+        res.send(`UserID: ${userId}, WorkID: ${workId}, Result: ${result}`);
       } else {
         res.status(500).send(`Error: ${error}`);
       }

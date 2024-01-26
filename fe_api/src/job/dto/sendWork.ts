@@ -5,4 +5,6 @@ export class sendWorkDto {
   name: string;
   @ApiProperty({ type: String })
   expression: string;
+  @ApiProperty({ type: String })
+  userid: string;
 }
