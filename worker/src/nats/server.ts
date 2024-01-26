@@ -60,6 +60,7 @@ export class Server {
 
     try {
       await this.jetstream(Trabajo.id,"EXEUCTING");
+      // Ejecutamos el trabajo recibido.
        const result = await userFunction();
       this.storeTrabajo(Trabajo.userid,Trabajo.id,result);
      await this.jetstream(Trabajo.id,"TERMINATED");

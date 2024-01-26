@@ -49,6 +49,22 @@ export class jobStatus {
         res.status(500).send(`Error: ${error}`);
       }
     });
+    this.app.get('/getworkresult/:userid', async (req, res) => {
+      const userId = req.params.userid;
+    
+      try {
+        const { success, results, error } = await this.jetstreamHandler.getAllUserJobs(userId);
+    
+        if (success) {
+          res.send({ results });
+        } else {
+          res.status(500).send({ error });
+        }
+      } catch (err) {
+        res.status(500).send({ error: err.message });
+      }
+    });
+    
 
     this.app.listen(1983, () => {
       console.log('Express server listening on port 3000');
