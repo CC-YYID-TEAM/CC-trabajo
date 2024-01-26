@@ -1,9 +1,9 @@
 import { Module } from '@nestjs/common';
-import { StatusJobService } from './status-job.service';
+import { JobServiceApi } from './serviceapi_job.service';
 import { HttpModule } from '@nestjs/axios';
 
 @Module({
   imports: [HttpModule],
-  providers: [StatusJobService],
+  providers: [JobServiceApi],
 })
-export class StatusJobModule {}
+export class JobApiModule {}

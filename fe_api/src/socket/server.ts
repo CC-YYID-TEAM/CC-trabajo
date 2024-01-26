@@ -1,11 +1,11 @@
 import { connect, StringCodec, NatsConnection, Codec } from 'nats';
-import { sendWorkDto } from 'src/dto/sendWork';
+import { sendWorkDto } from '../job/dto/sendWork';
 export class Server {
   private nc: NatsConnection;
   private url: string;
   private port: string;
   private sc: Codec<string>;
-//  private jetstream:JetstreamHandler;
+  //  private jetstream:JetstreamHandler;
   /**
    * Constructs a new instance of the class.
    *

@@ -3,12 +3,13 @@ import { Server } from 'src/socket/server';
 import { sendWorkDto } from './dto/sendWork';
 import { v4 as uuid } from 'uuid';
 import { responseDto } from './dto/response';
-import { StatusJobService } from '../status-job/status-job.service';
+import { JobServiceApi } from '../service_job/serviceapi_job.service';
+import { ResultJobDto } from 'src/service_job/dto/result_dto';
 
 @Injectable()
 export class JobService {
   private server: Server;
-  constructor(private readonly statusService: StatusJobService) {
+  constructor(private readonly jobServiceApi: JobServiceApi) {
     this.server = new Server(
       `nats://${process.env.NATS_URL}`,
       `${process.env.NATS_PORT}`,
@@ -19,18 +20,40 @@ export class JobService {
     const newIdTrabajo: string = uuid();
 
     sendWork.id = newIdTrabajo;
-    sendWork.idTrabajador = _user;
+    sendWork.userid = _user;
     this.server.listener(sendWork);
     return new responseDto(newIdTrabajo);
   }
-  async getJobById(_id: string): Promise<responseDto> {
+  async getJobStatusById(_id: string): Promise<responseDto> {
     try {
-      const response = await this.statusService.statusJobById(_id);
+      const response = await this.jobServiceApi.statusJobById(_id);
       console.log(response);
     } catch (err) {
       console.log(err);
     }
     const newIdTrabajo: string = uuid();
     return new responseDto(newIdTrabajo);
+  }
+
+  async getJobResultByUser(_idTrabajo: string, idUser: string) {
+    try {
+      const response = await this.jobServiceApi.getJobResultByUser(
+        _idTrabajo,
+        idUser,
+      );
+      console.log(response);
+    } catch (err) {
+      console.log(err);
+    }
+  }
+  async getAllJobByUser(_idUsuaio: string): Promise<ResultJobDto[]> {
+    try {
+      const response =
+        await this.jobServiceApi.getAllJobResultByUser(_idUsuaio);
+      console.log(response);
+      return response;
+    } catch (err) {
+      console.log(err);
+    }
   }
 }

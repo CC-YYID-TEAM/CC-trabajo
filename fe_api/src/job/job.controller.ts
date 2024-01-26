@@ -20,13 +20,22 @@ export class JobController {
     return this.appService.sendWork(sendWork, forwardedEmail);
   }
   @UseGuards(HeaderAuthGuard)
-  @Get(':id')
-  async getJobById(@Param('id') id: string, @Headers() headers) {
+  @Get('statusJob/:id')
+  async getJobStatusById(@Param('id') id: string, @Headers() headers) {
     const forwardedEmail = headers['x-forwarded-email'];
     console.log('cabecera', headers);
     console.log('email', forwardedEmail);
     console.log('already returned ');
-    return this.appService.getJobById(id);
+    return this.appService.getJobStatusById(id);
+  }
+
+  @Get('resultJob/:id')
+  async getJobResultByUser(@Param('id') id: string, @Headers() headers) {
+    const forwardedEmail = headers['x-forwarded-email'];
+    console.log('cabecera', headers);
+    console.log('email', forwardedEmail);
+    console.log('already returned ');
+    return this.appService.getJobResultByUser(id, forwardedEmail);
   }
 
   @Get('')
@@ -34,7 +43,7 @@ export class JobController {
     const forwardedEmail = headers['x-forwarded-email'];
     console.log('cabecera', headers);
     console.log('email', forwardedEmail);
-    return 'all job';
+    return this.appService.getAllJobByUser(forwardedEmail);
   }
 
   @Get('metricas')

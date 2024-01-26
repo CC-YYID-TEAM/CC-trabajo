@@ -1,6 +1,5 @@
 import { Injectable } from '@nestjs/common';
 import { Server } from './socket/server';
-import { sendWorkDto } from './dto/sendWork';
 @Injectable()
 export class AppService {
   private server: Server;

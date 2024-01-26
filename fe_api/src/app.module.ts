@@ -3,9 +3,9 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { JobModule } from './job/job.module';
 import { ConfigModule } from '@nestjs/config';
-import { StatusJobModule } from './status-job/status-job.module';
 import configuration from './config/configuration';
 import { JwtModule } from '@nestjs/jwt';
+import { JobApiModule } from './service_job/serviceapi_job.module';
 
 @Module({
   imports: [
@@ -13,7 +13,7 @@ import { JwtModule } from '@nestjs/jwt';
     ConfigModule.forRoot({
       load: [configuration],
     }),
-    StatusJobModule,
+    JobApiModule,
     JwtModule.register({
       secret: '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', // Reemplaza con tu clave secreta
       signOptions: { expiresIn: '1h' }, // Puedes ajustar la expiración según tus necesidades
