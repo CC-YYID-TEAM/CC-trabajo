@@ -75,8 +75,8 @@ export class JetstreamHandler {
         const blobData = await new TextDecoder().decode(await os.getBlob(blobName));
     
         const jsonItem = {
-          name: blobName,
-          data: blobData
+          Id: blobName,
+          Result: blobData
         };
     
         result.push(jsonItem);

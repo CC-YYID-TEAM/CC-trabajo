@@ -31,7 +31,7 @@ export class jobStatus {
       const { success, result, error } = await this.jetstreamHandler.get(workId);
       
       if (success) {
-        res.send(`WorkID: ${workId}, Status: ${result}`);
+        res.send(`Id: ${workId}, Status: ${result}`);
       } else {
         res.status(500).send(`Error: ${error}`);
       }
@@ -44,7 +44,7 @@ export class jobStatus {
       const { success, result, error } = await this.jetstreamHandler.getValue(userId, workId);
     
       if (success) {
-        res.send(`UserID: ${userId}, WorkID: ${workId}, Result: ${result}`);
+        res.send({Id:workId,Result:result});
       } else {
         res.status(500).send(`Error: ${error}`);
       }
