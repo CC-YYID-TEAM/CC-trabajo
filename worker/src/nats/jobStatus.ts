@@ -3,11 +3,11 @@ import express from 'express';
 import { JetstreamHandler } from './jetStreamHandler';
 
 export class jobStatus {
-  private nc: NatsConnection;
+  private nc!: NatsConnection;
   private url: string;
   private port: string;
   private sc: Codec<string>;
-  private jetstreamHandler: JetstreamHandler;
+  private jetstreamHandler!: JetstreamHandler;
   private app: express.Application;
 
   constructor(url: string, port: string) {
@@ -28,7 +28,7 @@ export class jobStatus {
   private setupExpress() {
     this.app.get('/getworkstatus/:workid', async (req, res) => {
       const workId = req.params.workid;
-      const { success, result, error } = await this.jetstreamHandler.get(workId);
+      const { success, result, error } = await this.jetstreamHandler!!.get(workId);
       
       if (success) {
         res.send(`WorkID: ${workId}, Status: ${result}`);
@@ -39,7 +39,7 @@ export class jobStatus {
 
     this.app.get('/getworkresult/:workid', async (req, res) => {
       const workId = req.params.workid;
-      const { success, result, error } = await this.jetstreamHandler.getValue(workId);
+      const { success, result, error } = await this.jetstreamHandler!!.getValue(workId);
       
       if (success) {
         res.send(`WorkID: ${workId}, Resultado: ${result}`);
@@ -47,9 +47,8 @@ export class jobStatus {
         res.status(500).send(`Error: ${error}`);
       }
     });
-
-    this.app.listen(1983, () => {
-      console.log('Express server listening on port 3000');
+    this.app.listen(process.env.PORT_API, () => {
+      console.log(`Express server listening on port ${process.env.PORT_API}`);
     });
   }
 }

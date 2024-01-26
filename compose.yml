@@ -5,6 +5,8 @@ services:
     image: nats:2.7.0-alpine
     ports:
       - 4222:4222
+      - 8222:8222
+    command: ["nats-server", "-js", "-m", "8222"]
     networks:
       - faas  
 
@@ -32,6 +34,18 @@ services:
       - .env 
     networks:
       - faas
+
+  worker:
+    build:
+      context: ./worker
+      dockerfile: Dockerfile
+    image: worker
+    ports:
+      - "3002:3002"
+    networks:
+      - faas 
+    depends_on:
+      - nats      
 
 
 networks:

@@ -4,19 +4,20 @@ import { jobStatus } from "./jobStatus"
 
 
 
+
 export class Server {
-  private nc: NatsConnection;
+  private nc!: NatsConnection;
   private url: string;
   private port: string;
   private sc: Codec<string>;
-  private jetstreamHandler: JetstreamHandler;
+  private jetstreamHandler!: JetstreamHandler;
 
   constructor(url: string, port: string) {
     this.url = url + ':' + port;
     this.port = port;
     this.sc = StringCodec();
     this.conect();
-    new jobStatus("nats://localhost","4222")
+    new jobStatus(url,port)
 
    
   }
