@@ -56,12 +56,13 @@ export class Server {
   }
 
   private async ejecutarFuncion(Trabajo: any) {
-    const userFunction = new Function(Trabajo.expression);
+    const userFunction = await eval(Trabajo.expression);
 
     try {
       await this.jetstream(Trabajo.id,"EXEUCTING");
       // Ejecutamos el trabajo recibido.
-       const result = await userFunction();
+       const result = userFunction;
+       console.log("this is my result" +result)
       this.storeTrabajo(Trabajo.userid,Trabajo.id,result);
      await this.jetstream(Trabajo.id,"TERMINATED");
     } catch (error) {
