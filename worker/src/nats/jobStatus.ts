@@ -28,26 +28,44 @@ export class jobStatus {
   private setupExpress() {
     this.app.get('/getworkstatus/:workid', async (req, res) => {
       const workId = req.params.workid;
-      const { success, result, error } = await this.jetstreamHandler!!.get(workId);
+      const { success, result, error } = await this.jetstreamHandler.get(workId);
       
       if (success) {
-        res.send(`WorkID: ${workId}, Status: ${result}`);
+        res.send(`Id: ${workId}, Status: ${result}`);
       } else {
         res.status(500).send(`Error: ${error}`);
       }
     });
 
-    this.app.get('/getworkresult/:userid/:workid', async (req, res) => {
+    this.app.get('/getworkresult/:workid/:userid', async (req, res) => {
       const workId = req.params.workid;
-      const userID = req.params.userid;
-      const { success, result, error } = await this.jetstreamHandler!!.getValue(userID,workId);
-      
+      const userId = req.params.userid;
+    
+      const { success, result, error } = await this.jetstreamHandler.getValue(userId, workId);
+    
       if (success) {
-        res.send(`WorkID: ${workId}, Resultado: ${result}`);
+        res.send({Id:workId,Result:result});
       } else {
         res.status(500).send(`Error: ${error}`);
       }
     });
+    this.app.get('/getworkresult/:userid', async (req, res) => {
+      const userId = req.params.userid;
+    
+      try {
+        const { success, results, error } = await this.jetstreamHandler.getAllUserJobs(userId);
+    
+        if (success) {
+          res.send({ results });
+        } else {
+          res.status(500).send({ error });
+        }
+      } catch (err) {
+        res.status(500).send({ err });
+      }
+    });
+    
+
     this.app.listen(process.env.PORT_API, () => {
       console.log(`Express server listening on port ${process.env.PORT_API}`);
     });

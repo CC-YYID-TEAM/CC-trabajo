@@ -50,6 +50,8 @@ export class Server {
       callback: async (_err, _msg) => {
         const trabajo = JSON.parse(this.sc.decode(_msg.data));
         await this.jetstream(trabajo.id,"RECEIVED BY WORKER");
+        await this.example();
+        console.log("before work")
         this.ejecutarFuncion(trabajo);
         
       },
@@ -69,5 +71,17 @@ export class Server {
     }
   }
 
-// Usage
+
+  sleep(ms:number) {
+    return new Promise(resolve => setTimeout(resolve, ms));
+  }
+  
+  // Usage:
+  async example() {
+    console.log('Start');
+    await this.sleep(60000); // Sleep for 10 seconds
+    console.log('End');
+  }
+  
+  
 }

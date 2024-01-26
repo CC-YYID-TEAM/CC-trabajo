@@ -1,4 +1,12 @@
-import { Body, Controller, Get, Headers, Param, Post, UseGuards } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Get,
+  Headers,
+  Param,
+  Post,
+  UseGuards,
+} from '@nestjs/common';
 import { JobService } from './job.service';
 import { sendWorkDto } from './dto/sendWork';
 import { ApiTags } from '@nestjs/swagger';
@@ -17,16 +25,16 @@ export class JobController {
     const forwardedEmail = headers['x-forwarded-email'];
     console.log('cabecera', headers);
     console.log('email', forwardedEmail);
-    return this.appService.sendWork(sendWork, forwardedEmail);
+    return this.appService.sendWork(sendWork, 'forwardedEmail');
   }
-  @UseGuards(HeaderAuthGuard)
+  //@UseGuards(HeaderAuthGuard)
   @Get('statusJob/:id')
   async getJobStatusById(@Param('id') id: string, @Headers() headers) {
     const forwardedEmail = headers['x-forwarded-email'];
     console.log('cabecera', headers);
     console.log('email', forwardedEmail);
     console.log('already returned ');
-    return this.appService.getJobStatusById(id);
+    return await this.appService.getJobStatusById(id);
   }
 
   @Get('resultJob/:id')
@@ -35,7 +43,7 @@ export class JobController {
     console.log('cabecera', headers);
     console.log('email', forwardedEmail);
     console.log('already returned ');
-    return this.appService.getJobResultByUser(id, forwardedEmail);
+    return await this.appService.getJobResultByUser(id, 'forwardedEmail');
   }
 
   @Get('')
@@ -43,7 +51,7 @@ export class JobController {
     const forwardedEmail = headers['x-forwarded-email'];
     console.log('cabecera', headers);
     console.log('email', forwardedEmail);
-    return this.appService.getAllJobByUser(forwardedEmail);
+    return await this.appService.getAllJobByUser('forwardedEmail');
   }
 
   @Get('metricas')

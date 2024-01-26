@@ -27,12 +27,10 @@ export class JobService {
   async getJobStatusById(_id: string): Promise<responseDto> {
     try {
       const response = await this.jobServiceApi.statusJobById(_id);
-      console.log(response);
+      return response;
     } catch (err) {
       console.log(err);
     }
-    const newIdTrabajo: string = uuid();
-    return new responseDto(newIdTrabajo);
   }
 
   async getJobResultByUser(_idTrabajo: string, idUser: string) {
@@ -42,6 +40,7 @@ export class JobService {
         idUser,
       );
       console.log(response);
+      return response;
     } catch (err) {
       console.log(err);
     }

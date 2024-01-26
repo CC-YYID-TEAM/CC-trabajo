@@ -16,7 +16,7 @@ export class JobServiceApi {
         .get<StatusJobDto[]>(`http://localhost:1983/getworkstatus/${_id}`)
         .pipe(
           catchError((error: AxiosError) => {
-            this.logger.error(error.response.data);
+            this.logger.error(error);
             throw 'An error happened!';
           }),
         ),
@@ -28,11 +28,11 @@ export class JobServiceApi {
     const { data } = await firstValueFrom(
       this.httpService
         .get<StatusJobDto>(
-          `http://${process.env.ApiJob_Host}:${process.env.ApiJob_Host}/getworkstatus/${id}`,
+          `http://${process.env.ApiJob_Host}:${process.env.ApiJob_Port}/getworkstatus/${id}`,
         )
         .pipe(
           catchError((error: AxiosError) => {
-            this.logger.error(error.response.data);
+           // this.logger.error(error);
             throw 'An error happened!';
           }),
         ),
@@ -46,11 +46,11 @@ export class JobServiceApi {
     const { data } = await firstValueFrom(
       this.httpService
         .get<ResultJobDto>(
-          `http://${process.env.ApiJob_Host}:${process.env.ApiJob_Host}/getworkresult/${_idTrabajo}/${idUser}`,
+          `http://${process.env.ApiJob_Host}:${process.env.ApiJob_Port}/getworkresult/${_idTrabajo}/${idUser}`,
         )
         .pipe(
           catchError((error: AxiosError) => {
-            this.logger.error(error.response.data);
+           // this.logger.error(error);
             throw 'An error happened!';
           }),
         ),
@@ -62,7 +62,7 @@ export class JobServiceApi {
     const { data } = await firstValueFrom(
       this.httpService
         .get<ResultJobDto[]>(
-         `http://${process.env.ApiJob_Host}:${process.env.ApiJob_Host}/getworkresult/${idUser}`,
+         `http://${process.env.ApiJob_Host}:${process.env.ApiJob_Port}/getworkresult/${idUser}`,
         )
         .pipe(
           catchError((error: AxiosError) => {
