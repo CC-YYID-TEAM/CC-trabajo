@@ -45,7 +45,19 @@ services:
     networks:
       - faas 
     depends_on:
-      - nats      
+      - nats
+
+  observer:
+    build:
+      context: ./observer
+      dockerfile: Dockerfile
+    image: worker
+    ports:
+      - "3003:3003"
+    networks:
+      - faas 
+    depends_on:
+      - nats           
 
 
 networks:

@@ -1,6 +1,8 @@
 
 import axios from 'axios';
+import * as dotenv from 'dotenv';
 
+dotenv.config({ path: '../.env' });
 interface WorkerData {
   start?: Date;
   end?: Date;
@@ -9,16 +11,16 @@ interface WorkerData {
 const workerData: { [key: string]: WorkerData } = {};
 
 async function main(): Promise<void> {
-  console.log("inicializado")
+  console.log("inicializado"+process.env.NATS_URL)
   setInterval(async () => {
     let resp;
     try {
-      const resp = await axios.get('http://localhost:8222/varz');
+      const resp = await axios.get(`http://${process.env.NATS_URL}:${process.env.NATS_PORT}/varz`);
       console.log("here");
       console.log(resp.data.in_msgs);
       if (resp.data.in_msgs > 10) {
         console.log('Adicionar nuevo worker');
-      workerData[crypto.randomUUID()] = { start: undefined, end: new Date() };
+      //workerData[crypto.randomUUID()] = { start: undefined, end: new Date() };
       }else{
         console.log("no hay nada")
       }
