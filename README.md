@@ -15,3 +15,5 @@
 # fe_api 
 # npm install --> Se descargan las dependencias
 # npm start --> Con esto se levanta el proyecto
+
+# docker-compose up build

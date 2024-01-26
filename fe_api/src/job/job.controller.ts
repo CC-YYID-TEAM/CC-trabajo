@@ -43,7 +43,7 @@ export class JobController {
     console.log('cabecera', headers);
     console.log('email', forwardedEmail);
     console.log('already returned ');
-    return await this.appService.getJobResultByUser(id, 'forwardedEmail');
+    return await this.appService.getJobResultByUser(id, forwardedEmail);
   }
 
   @Get('')
@@ -51,7 +51,7 @@ export class JobController {
     const forwardedEmail = headers['x-forwarded-email'];
     console.log('cabecera', headers);
     console.log('email', forwardedEmail);
-    return await this.appService.getAllJobByUser('forwardedEmail');
+    return await this.appService.getAllJobByUser(forwardedEmail);
   }
 
   @Get('metricas')
