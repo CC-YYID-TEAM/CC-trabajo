@@ -28,8 +28,7 @@ const dotenv = __importStar(require("dotenv"));
 function main() {
     dotenv.config({ path: '../.env' });
     const natsHost = process.env.NATS_URL || 'localhost';
-    const natsPort = process.env.NATS_PORT || 'localhost';
-    console.log(natsHost, natsPort);
+    const natsPort = process.env.NATS_PORT || '4222';
     new server_1.Server(`nats://${natsHost}`, natsPort);
 }
 main();
