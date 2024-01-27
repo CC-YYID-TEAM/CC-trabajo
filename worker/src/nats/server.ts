@@ -51,7 +51,7 @@ export class Server {
 
   private async listener() {
     console.log("hola");
-    const sub = this.nc.subscribe('hello', {
+    const sub = this.nc.subscribe('work', {
       queue: "workers",
       callback: async (_err, _msg) => {
         const trabajo = JSON.parse(this.sc.decode(_msg.data));

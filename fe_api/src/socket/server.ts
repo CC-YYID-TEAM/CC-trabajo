@@ -28,6 +28,6 @@ export class Server {
   }
 
   public listener(sendowrk: sendWorkDto) {
-    this.nc.publish('hello', this.sc.encode(JSON.stringify(sendowrk)));
+    this.nc.publish('work', this.sc.encode(JSON.stringify(sendowrk)));
   }
 }
