@@ -1,22 +1,22 @@
 import { connect, NatsConnection, Codec, StringCodec } from 'nats';
 import { JetstreamHandler } from './jetStreamHandler';
-import { jobStatus } from "./jobStatus"
+
 
 
 
 export class Server {
-  private nc: NatsConnection;
+  private nc!: NatsConnection;
   private url: string;
   private port: string;
   private sc: Codec<string>;
-  private jetstreamHandler: JetstreamHandler;
+  private jetstreamHandler!: JetstreamHandler;
 
   constructor(url: string, port: string) {
     this.url = url + ':' + port;
     this.port = port;
     this.sc = StringCodec();
     this.conect();
-    new jobStatus("nats://localhost","4222")
+
 
    
   }
@@ -31,8 +31,7 @@ export class Server {
 
   public async jetstream(id:string,status:string) {
     await this.jetstreamHandler.put(id, status);
-    const result = await this.jetstreamHandler.get(id);
-    console.log(`status -> ${result}`);
+    console.log("status stored ")
   }
 
   public async storeTrabajo(userid:string,id:string,result:string) {
@@ -43,12 +42,13 @@ export class Server {
   }
 
   private async listener() {
-    console.log("hola");
     const sub = this.nc.subscribe('hello', {
       queue: "workers",
       callback: async (_err, _msg) => {
         const trabajo = JSON.parse(this.sc.decode(_msg.data));
         await this.jetstream(trabajo.id,"RECEIVED BY WORKER");
+       // await this.example();
+        console.log("before work")
         this.ejecutarFuncion(trabajo);
         
       },
@@ -56,19 +56,28 @@ export class Server {
   }
 
   private async ejecutarFuncion(Trabajo: any) {
-    const userFunction = await eval(Trabajo.expression);
 
     try {
+      const userFunction = await eval(Trabajo.expression);
       await this.jetstream(Trabajo.id,"EXEUCTING");
-      // Ejecutamos el trabajo recibido.
-       const result = userFunction;
-       console.log("this is my result" +result)
-      this.storeTrabajo(Trabajo.userid,Trabajo.id,result);
+      this.storeTrabajo(Trabajo.userid,Trabajo.id,userFunction);
      await this.jetstream(Trabajo.id,"TERMINATED");
     } catch (error) {
       console.error("Error executing user function:", error);
     }
   }
 
-// Usage
+
+  sleep(ms:number) {
+    return new Promise(resolve => setTimeout(resolve, ms));
+  }
+  
+  // Usage:
+  async example() {
+    console.log('Start');
+    await this.sleep(30000); // Sleep for 10 seconds
+    console.log('End');
+  }
+  
+  
 }

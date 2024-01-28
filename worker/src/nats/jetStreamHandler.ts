@@ -29,16 +29,7 @@ export class JetstreamHandler {
     }
   }
 
-  public async get(key: string): Promise<{ success: boolean, result?: string, error?: string }> {
-    try {
-      const kv = await this.getKeyValueView("jobs");
-      const entry = await kv.get(key);
-      return { success: true, result: entry?.string() };
-    } catch (error) {
-      console.error('Error getting value:', error);
-      return { success: false, error: 'Failed to get value' };
-    }
-  }
+
 
   public async storeValue(userid:string,key: string, value: string): Promise<{ success: boolean, error?: string }> {
     try {
@@ -52,40 +43,7 @@ export class JetstreamHandler {
       return { success: false, error: 'Failed to store value' };
     }
   }
+  
 
-  public async getValue(userid:string,key: string): Promise<{ success: boolean, result?: string, error?: string }> {
-    try {
-      const os = await this.getJetstream().views.os(userid);
-      const data = await os.getBlob(key);
-      return { success: true, result: new TextDecoder().decode(data) };
-    } catch (error) {
-      console.error('Error getting value:', error);
-      return { success: false, error: 'Failed to get value' };
-    }
-  }
-   
-  public async getAllUserJobs(userid:string): Promise<{ success: boolean, results?:Array<{ name: string, data: string }>, error?: string }> {
-    try {
-      const os = await this.getJetstream().views.os(userid);
-      const allBlobs = await  os.list();
-      const result = [];
-
-      for (const blobItem of allBlobs) {
-        const blobName = blobItem.name;
-        const blobData = await new TextDecoder().decode(await os.getBlob(blobName));
-    
-        const jsonItem = {
-          Id: blobName,
-          Result: blobData
-        };
-    
-        result.push(jsonItem);
-      }
-      return { success: true, results: result };
-    } catch (error) {
-      console.error('Error getting value:', error);
-      return { success: false, error: 'Failed to get value' };
-    }
-  }
 }
 
