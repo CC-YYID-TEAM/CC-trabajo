@@ -27,11 +27,12 @@ export class Server {
     console.log('Worker connected to port:' + this.port);
     try {
       this.nc = await connect({ servers: this.url });
+      this.listener();
     } catch (error) {
       console.log(error);
     }
     
-    this.listener();
+    
     this.jetstreamHandler = new JetstreamHandler(this.nc);
 
   }
@@ -65,14 +66,17 @@ export class Server {
   }
 
   private async ejecutarFuncion(Trabajo: any) {
-    
 
     try {
       const result = await eval(Trabajo.expression);
       await this.jetstream(Trabajo.id,"EXEUCTING");
        //const result = await userFunction();
       this.storeTrabajo(Trabajo.userid,Trabajo.id,result);
-     await this.jetstream(Trabajo.id,"TERMINATED");
+      this.nc.publish(
+        'datawork',
+        this.sc.encode(JSON.stringify({ message: 'end', id: Trabajo.id })),
+      );
+      await this.jetstream(Trabajo.id,"TERMINATED");
     } catch (error) {
       console.error("Error executing user function:", error);
     }

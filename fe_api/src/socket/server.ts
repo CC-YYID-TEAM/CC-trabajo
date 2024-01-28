@@ -28,6 +28,11 @@ export class Server {
   }
 
   public listener(sendowrk: sendWorkDto) {
+    console.log('envio data');
+    this.nc.publish(
+      'datawork',
+      this.sc.encode(JSON.stringify({ message: 'start', id: sendowrk.id })),
+    );
     this.nc.publish('work', this.sc.encode(JSON.stringify(sendowrk)));
   }
 }

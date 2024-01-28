@@ -15,9 +15,12 @@
     "@types/node": "^20.11.7",
     "axios": "^1.6.5",
     "dotenv": "^16.4.1",
+    "nats": "^2.19.0",
     "nodemon": "^3.0.3",
     "rimraf": "^5.0.5",
-    "ts-node": "^10.9.2",
-    "zeromq": "^5.3.1"
+    "ts-node": "^10.9.2"
+  },
+  "devDependencies": {
+    "@types/zeromq": "^5.2.5"
   }
 }
