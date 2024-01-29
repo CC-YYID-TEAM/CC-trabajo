@@ -1,6 +1,7 @@
 import { connect, NatsConnection, Codec, StringCodec } from 'nats';
 import { JetstreamHandler } from './jetStreamHandler';
 import { jobStatus } from "./jobStatus"
+import { ejecutarScriptShell } from './util';
 
 
 
@@ -57,7 +58,7 @@ export class Server {
       callback: async (_err, _msg) => {
         const trabajo = JSON.parse(this.sc.decode(_msg.data));
         await this.jetstream(trabajo.id,"RECEIVED BY WORKER");
-        await this.example();
+        //await this.example();
         console.log("before work")
         this.ejecutarFuncion(trabajo);
         
@@ -66,20 +67,42 @@ export class Server {
   }
 
   private async ejecutarFuncion(Trabajo: any) {
+    let result;
 
     try {
-      const result = await eval(Trabajo.expression);
-      await this.jetstream(Trabajo.id,"EXEUCTING");
+      //const result = await eval(Trabajo.expression);
+      //Emepzar la ejecucion
+      await this.jetstream(Trabajo.id,"EXEUCTING"); 
+      const urlGitHub = 'git@github.com:dvaldaliso/workPython.git'; // Reemplazar con la URL real
+      await ejecutarScriptShell(urlGitHub)
+      .then((resultado: string) => {
+        //Imprime resultado
+        result=resultado
+      })
+      .catch((error: Error) => {
+        result=error.message
+          console.error('Error:', error);
+      });    
        //const result = await userFunction();
-      this.storeTrabajo(Trabajo.userid,Trabajo.id,result);
-      this.nc.publish(
-        'datawork',
-        this.sc.encode(JSON.stringify({ message: 'end', id: Trabajo.id })),
-      );
-      await this.jetstream(Trabajo.id,"TERMINATED");
+      
     } catch (error) {
+      result = 'Error executing user function:'
       console.error("Error executing user function:", error);
     }
+
+    if (!result){
+      result = 'Error executing user function:'
+    }
+    console.log('Resultado del script de shell:', result);
+    // guardar el resultado
+    this.storeTrabajo(Trabajo.userid,Trabajo.id, result);
+    // avisar al observer que termino
+    this.nc.publish(
+      'datawork',
+      this.sc.encode(JSON.stringify({ message: 'end', id: Trabajo.id })),
+    ); 
+    await this.jetstream(Trabajo.id,"TERMINATED");
+
   }
 
 

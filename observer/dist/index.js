@@ -41,7 +41,6 @@ function calcularMediaDiferencia() {
         // Calcular la diferencia entre end y start
         const diferencia = workerData[key].end.getTime() - workerData[key].start.getTime();
         sumaDiferencias += diferencia;
-        console.log('tiempos', workerData[key].end, workerData[key].start);
     }
     // Calcular la media dividiendo la suma total por la cantidad de objetos
     const media = sumaDiferencias / tamano;
@@ -53,7 +52,6 @@ function estadoCola(num, data) {
     if (parsedData.message == "start") {
         workerData[parsedData.id] = { start: new Date, end: new Date };
         workerInExce.push(parsedData.id);
-        console.log(workerInExce.length, Object.keys(workerData).length);
     }
     if (workerInExce.length > parseInt(NUM_PROCESOS_IN_QUEUE_FOR_OTHER_WORkER)) {
         console.log("Add worker");
