@@ -90,7 +90,7 @@ export class Server {
   // Usage:
   async example() {
     console.log('Start');
-    //await this.sleep(30000); // Sleep for 10 seconds
+    await this.sleep(10000); // Sleep for 10 seconds
     console.log('End');
   }
   

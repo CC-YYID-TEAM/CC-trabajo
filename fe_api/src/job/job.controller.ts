@@ -57,6 +57,6 @@ export class JobController {
   @Get('metricas')
   async getMetricas() {
     console.log('already returned ');
-    return 'all metricas';
+    return await this.appService.getMetricas();
   }
 }

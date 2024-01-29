@@ -55,4 +55,9 @@ export class JobService {
       console.log(err);
     }
   }
+
+  async getMetricas(): Promise<string> {
+    console.log('already returned ');
+    return this.server.getMetricas();
+  }
 }
