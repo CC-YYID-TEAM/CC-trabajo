@@ -40,12 +40,22 @@ services:
       context: ./worker
       dockerfile: Dockerfile
     image: worker
+    networks:
+      - faas 
+    depends_on:
+      - nats
+      
+  workerstatus:
+    build:
+      context: ./workerstatus
+      dockerfile: Dockerfile
+    image: workerstatus
     ports:
       - "3002:3002"
     networks:
       - faas 
     depends_on:
-      - nats
+      - nats    
 
   observer:
     build:
