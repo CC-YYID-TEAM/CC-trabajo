@@ -27,7 +27,7 @@ export class JobController {
     console.log('email', forwardedEmail);
     return this.appService.sendWork(sendWork, 'forwardedEmail');
   }
-  @UseGuards(HeaderAuthGuard)
+  //@UseGuards(HeaderAuthGuard)
   @Get('statusJob/:id')
   async getJobStatusById(@Param('id') id: string, @Headers() headers) {
     const forwardedEmail = headers['x-forwarded-email'];

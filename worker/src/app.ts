@@ -1,5 +1,4 @@
 import {Server} from "./nats/server"
-import { jobStatus } from "./nats/jobStatus"
 import * as dotenv from 'dotenv';
  
 

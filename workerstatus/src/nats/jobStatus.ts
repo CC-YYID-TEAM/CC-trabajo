@@ -3,11 +3,11 @@ import express from 'express';
 import { JetstreamHandler } from './jetStreamHandler';
 
 export class jobStatus {
-  private nc: NatsConnection;
+  private nc!: NatsConnection;
   private url: string;
   private port: string;
   private sc: Codec<string>;
-  private jetstreamHandler: JetstreamHandler;
+  private jetstreamHandler!: JetstreamHandler;
   private app: express.Application;
 
   constructor(url: string, port: string) {
@@ -19,8 +19,14 @@ export class jobStatus {
   }
 
   private async connect() {
-    console.log('Status connected to port:' + this.port);
-    this.nc = await connect({ servers: this.url });
+    
+    try {
+      console.log('Status connected to port:' + this.port);
+      this.nc = await connect({ servers: this.url });
+    } catch (error) {
+      console.log('Error connected to port:' + this.port);
+      console.log(error);      
+    }
     this.jetstreamHandler = new JetstreamHandler(this.nc);
     this.setupExpress();
   }
@@ -61,13 +67,13 @@ export class jobStatus {
           res.status(500).send({ error });
         }
       } catch (err) {
-        res.status(500).send({ error: err.message });
+        res.status(500).send({ error: "Error desconocido" });
       }
     });
     
-
-    this.app.listen(1983, () => {
-      console.log('Express server listening on port 3000');
+    const PORT_API =  process.env.PORT_API
+    this.app.listen(PORT_API, () => {
+      console.log(`Express server listening on port ${PORT_API}`);
     });
   }
 }

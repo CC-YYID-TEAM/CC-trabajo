@@ -1,4 +1,4 @@
-import { NatsConnection, JetStreamManager, StringCodec, Codec, JetStreamClient } from 'nats';
+import { NatsConnection, StringCodec, Codec, JetStreamClient } from 'nats';
 
 export class JetstreamHandler {
   private nc: NatsConnection;
@@ -42,8 +42,8 @@ export class JetstreamHandler {
       return { success: false, error: 'Failed to get value' };
     }
   }
-   
-  public async getAllUserJobs(userid:string): Promise<{ success: boolean, results?:Array<{ name: string, data: string }>, error?: string }> {
+  
+  public async getAllUserJobs(userid:string): Promise<{ success: boolean, results?:Array<{Id:string, Result: string }>, error?: string }> {
     try {
       const os = await this.getJetstream().views.os(userid);
       const allBlobs = await  os.list();

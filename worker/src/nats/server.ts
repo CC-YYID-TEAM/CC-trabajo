@@ -1,6 +1,5 @@
 import { connect, NatsConnection, Codec, StringCodec } from 'nats';
 import { JetstreamHandler } from './jetStreamHandler';
-import { jobStatus } from "./jobStatus"
 import { ejecutarScriptShell } from './util';
 
 
@@ -19,8 +18,6 @@ export class Server {
     this.sc = StringCodec();
     this.conect();
     console.log('Worker connected to port hh:' + this.port);
-    new jobStatus(url,port)
-
    
   }
 
@@ -40,8 +37,6 @@ export class Server {
 
   public async jetstream(id:string,status:string) {
     await this.jetstreamHandler.put(id, status);
-    const result = await this.jetstreamHandler.get(id);
-    console.log(`status -> ${result}`);
   }
 
   public async storeTrabajo(userid:string,id:string,result:string) {
