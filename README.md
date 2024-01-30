@@ -1,19 +1,11 @@
-# David, Iván, Yazid, Yoel 
-## Repository, fetch, pull, branch, merge...
+# David, Iván, Yazid
+## observer
+### observa el estado en la cola de nats
+## worker
+### worker ejecuta los trabajos(proyectos en github)
+## workerstatus (exponemos un api para obtener los resultados del worker)
+## fe(Es un api de cara al cliente para ejecutar los trabajos)
+## auth2-proxy(los usamos como porveedor de autenticacion)
 
-## current branch -> git feth && git pull
-## traer de una rama -> git merge nombreRama
-
-# https://jamboard.google.com/d/1UyeNPgHggreeFrlGM6HFV2JXTmBYyAeZ3OJRI1uXZTo/edit?usp=sharing
-
-# Auth2Proxy
-## cli -> docker-compose up
-## auth2proxy -> puerto 4180
-
-
-
-# fe_api 
-# npm install --> Se descargan las dependencias
-# npm start --> Con esto se levanta el proyecto
-
-# docker-compose up build
+# Ejecutar todo el proyecto
+## docker-compose up build
