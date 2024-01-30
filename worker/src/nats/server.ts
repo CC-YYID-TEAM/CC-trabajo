@@ -71,8 +71,9 @@ export class Server {
 
     try {
       //const result = await eval(Trabajo.expression);
-      //Emepzar la ejecucion
+      //Empezar la ejecucion
       await this.jetstream(Trabajo.id,"EXEUCTING");
+      //https://username:password@github.com/username/repository.git
       //const urlGitHub = 'https://github.com/dvaldaliso/workPython.git'; // Reemplazar con la URL real
       const urlGitHub = Trabajo.urlGitHub; // Reemplazar con la URL real
       await ejecutarScriptShell(urlGitHub)
