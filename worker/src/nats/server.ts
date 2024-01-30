@@ -69,8 +69,8 @@ export class Server {
       //Empezar la ejecucion
       await this.jetstream(Trabajo.id,"EXEUCTING");
       //https://username:password@github.com/username/repository.git
-      //const urlGitHub = 'https://github.com/dvaldaliso/workPython.git'; // Reemplazar con la URL real
-      const urlGitHub = Trabajo.urlGitHub; // Reemplazar con la URL real
+      //const urlGitHub = 'https://github.com/dvaldaliso/workPython.git';
+      const urlGitHub = Trabajo.urlGitHub; 
       await ejecutarScriptShell(urlGitHub)
       .then((resultado: string) => {
         //Imprime resultado
