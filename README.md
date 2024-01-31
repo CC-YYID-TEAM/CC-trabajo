@@ -18,4 +18,4 @@
 ## auth2-proxy(los usamos como porveedor de autenticacion)
 
 # Ejecutar todo el proyecto
-## docker-compose up build
+## docker-compose up --build
