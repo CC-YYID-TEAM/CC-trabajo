@@ -19,3 +19,5 @@
 
 # Ejecutar todo el proyecto
 ## docker-compose up --build
+## el api sera por la siguiente url
+## localhost:4180/api
