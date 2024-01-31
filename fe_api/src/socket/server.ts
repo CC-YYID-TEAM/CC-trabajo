@@ -40,6 +40,7 @@ export class Server {
     console.log('getMetricas');
     const r = await this.nc.request('metricas');
     console.log(this.sc.decode(r.data));
-    return this.sc.decode(r.data);
+    const media = this.sc.decode(r.data);
+    return `Media en milisegundos ${media}`;
   }
 }
